@@ -13,12 +13,21 @@ public class AuthorService {
     @Autowired
     private AuthorRepository authorRepository;
 
-    public void create(String firstName, String lastName, String email, String createdBy, int age) throws AuthorException {
+    public void create(String firstName, String lastName, String email, String createdBy, int age) throws BaseException {
         if (firstName == null || firstName.isEmpty()) {
             throw AuthorException.createFirstNameNull();
         }
         if (email == null) {
             throw AuthorException.createEmailNull();
+        }
+        if (lastName == null) {
+            throw AuthorException.createLastNameNull();
+        }
+        if (createdBy == null) {
+            throw AuthorException.createCreateByNull();
+        }
+        if (age < 0) {
+            throw AuthorException.createAgeNull();
         }
         Author author = Author.builder()
                 .firstName(firstName)

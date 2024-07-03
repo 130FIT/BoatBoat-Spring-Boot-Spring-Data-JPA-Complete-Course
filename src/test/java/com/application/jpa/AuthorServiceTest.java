@@ -53,7 +53,7 @@ public class AuthorServiceTest {
     @Transactional
     public void testCreateAuthorWithNullEmail() {
         // Expect AuthorException to be thrown
-        assertThrows(
+        AuthorException exception = assertThrows(
                 AuthorException.class,
                 () -> authorService.create(
                         AuthorData.FIRST_NAME,
@@ -61,28 +61,61 @@ public class AuthorServiceTest {
                         null, // This should cause the AuthorException
                         AuthorData.CREATE_BY,
                         AuthorData.AGE
-                ),
-                AuthorException.createEmailNull().getMessage()
+                )
         );
+        assertEquals(AuthorException.createEmailNull().getMessage(), exception.getMessage());
     }
 
     @Test
     @Transactional
     public void testCreateAuthorWithEmptyFirstName() {
-        // Expect AuthorException to be thrown
-        assertThrows(
+        AuthorException exception = assertThrows(
                 AuthorException.class,
                 () -> authorService.create(
-                        "", // This should cause the AuthorException
-                        AuthorData.LAST_NAME,
+                        null,
+                        AuthorData.LAST_NAME, // This should cause the AuthorException
                         AuthorData.EMAIL,
                         AuthorData.CREATE_BY,
                         AuthorData.AGE
-                ),
-                AuthorException.createFirstNameNull().getMessage()
+                )
         );
+
+        assertEquals(AuthorException.createFirstNameNull().getMessage(), exception.getMessage());
     }
 
+    @Test
+    @Transactional
+    public void testCreateAuthorWithEmptyLastName() {
+        AuthorException exception = assertThrows(
+                AuthorException.class,
+                () -> authorService.create(
+                        AuthorData.FIRST_NAME,
+                        null, // This should cause the AuthorException
+                        AuthorData.EMAIL,
+                        AuthorData.CREATE_BY,
+                        AuthorData.AGE
+                )
+        );
+
+        assertEquals(AuthorException.createLastNameNull().getMessage(), exception.getMessage());
+    }
+
+    @Test
+    @Transactional
+    public void testCreateAuthorWithEmptyCreateBy() {
+        AuthorException exception = assertThrows(
+                AuthorException.class,
+                () -> authorService.create(
+                        AuthorData.FIRST_NAME,
+                        AuthorData.LAST_NAME, // This should cause the AuthorException
+                        AuthorData.EMAIL,
+                        null,
+                        AuthorData.AGE
+                )
+        );
+
+        assertEquals(AuthorException.createCreateByNull().getMessage(), exception.getMessage());
+    }
 
     interface AuthorData {
         Faker faker = new Faker();
