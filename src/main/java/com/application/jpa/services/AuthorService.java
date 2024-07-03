@@ -29,6 +29,7 @@ public class AuthorService {
         if (age < 0) {
             throw AuthorException.createAgeNull();
         }
+
         Author author = Author.builder()
                 .firstName(firstName)
                 .lastName(lastName)
@@ -36,6 +37,10 @@ public class AuthorService {
                 .createdBy(createdBy)
                 .age(age)
                 .build();
+        Author checkAuthor = authorRepository.findByEmail(email);
+        if (checkAuthor != null) {
+            throw AuthorException.createEmailExists();
+        }
         authorRepository.save(author);
     }
 }

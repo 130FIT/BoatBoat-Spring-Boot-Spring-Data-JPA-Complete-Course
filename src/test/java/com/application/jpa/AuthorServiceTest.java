@@ -116,6 +116,31 @@ public class AuthorServiceTest {
 
         assertEquals(AuthorException.createCreateByNull().getMessage(), exception.getMessage());
     }
+    @Test
+    @Transactional
+    public void testCreateAuthorWithEmailExists() throws BaseException {
+        Faker faker = new Faker();
+        authorService.create(
+                faker.name().firstName(),
+                faker.name().lastName(), // This should cause the AuthorException
+                AuthorData.EMAIL,
+                faker.name().fullName(),
+                faker.number().numberBetween(19, 50)
+        );
+        AuthorException exception = assertThrows(
+                AuthorException.class,
+                () -> authorService.create(
+                        AuthorData.FIRST_NAME,
+                        AuthorData.LAST_NAME, // This should cause the AuthorException
+                        AuthorData.EMAIL,
+                        AuthorData.CREATE_BY,
+                        AuthorData.AGE
+                )
+        );
+
+        assertEquals(AuthorException.createEmailExists().getMessage(), exception.getMessage());
+    }
+
 
     interface AuthorData {
         Faker faker = new Faker();
