@@ -102,6 +102,17 @@ public class AuthorSpecificationTest {
 
         assertEquals(0, authors.size());
     }
+
+    @Test
+    @Transactional
+    public void testQuerySpecificationFirstNameLikeOrHasAgeFound(){
+        Specification<Author> spec = Specification.where(
+                AuthorSpecification.firstNameLike(AuthorData.FIRST_NAME+"A").or(AuthorSpecification.hasAge(AuthorData.AGE))
+        );
+        List<Author> authors = authorRepository.findAll(spec);
+
+        assertEquals(1, authors.size());
+    }
     interface AuthorData {
         Faker faker = new Faker();
         String FIRST_NAME = faker.name().firstName();
