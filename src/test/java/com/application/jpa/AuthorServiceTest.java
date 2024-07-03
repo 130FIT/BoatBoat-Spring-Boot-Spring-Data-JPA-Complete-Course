@@ -66,6 +66,22 @@ public class AuthorServiceTest {
         );
     }
 
+    @Test
+    @Transactional
+    public void testCreateAuthorWithEmptyFirstName() {
+        // Expect AuthorException to be thrown
+        assertThrows(
+                AuthorException.class,
+                () -> authorService.create(
+                        "", // This should cause the AuthorException
+                        AuthorData.LAST_NAME,
+                        AuthorData.EMAIL,
+                        AuthorData.CREATE_BY,
+                        AuthorData.AGE
+                ),
+                AuthorException.createFirstNameNull().getMessage()
+        );
+    }
 
 
     interface AuthorData {
