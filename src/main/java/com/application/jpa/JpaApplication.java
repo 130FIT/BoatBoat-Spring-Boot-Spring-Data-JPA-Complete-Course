@@ -41,10 +41,10 @@ public class JpaApplication {
             videoRepository.save(video);*/
 //            authorRepository.updateAuthorAge(100, 1);
 
-            Specification<Author> spec = Specification
-                    .where(AuthorSpecification.hasAge(43))
-                    .or(AuthorSpecification.firstNameLike("a"));
-            authorRepository.findAll(spec).forEach(System.out::println);
+//            Specification<Author> spec = Specification
+//                    .where(AuthorSpecification.hasAge(43))
+//                    .or(AuthorSpecification.firstNameLike("a"));
+//            authorRepository.findAll(spec).forEach(System.out::println);
         };
     }
 }

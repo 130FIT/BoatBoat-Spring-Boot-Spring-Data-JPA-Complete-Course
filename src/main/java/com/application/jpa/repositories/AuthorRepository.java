@@ -37,4 +37,7 @@ public interface AuthorRepository extends JpaRepository<Author, Integer>, JpaSpe
     @Transactional
     List<Author> findAllByFirstNameInIgnoreCase(List<String> firstNames);
 
+    @Transactional
+    Author findByEmail(String email);
+
 }
