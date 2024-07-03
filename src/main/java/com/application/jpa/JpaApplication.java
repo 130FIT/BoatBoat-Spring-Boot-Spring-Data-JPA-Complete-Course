@@ -3,6 +3,7 @@ package com.application.jpa;
 import com.application.jpa.entities.Author;
 import com.application.jpa.repositories.AuthorRepository;
 import com.application.jpa.repositories.VideoRepository;
+import com.application.jpa.services.AuthorService;
 import com.application.jpa.specification.AuthorSpecification;
 import com.github.javafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
@@ -21,7 +22,8 @@ public class JpaApplication {
     @Bean
     public CommandLineRunner commandLineRunner(
             AuthorRepository authorRepository,
-            VideoRepository videoRepository
+            VideoRepository videoRepository,
+            AuthorService authorService
     ) {
         return args -> {
 /*            for (int i = 0; i < 10; i++) {
@@ -45,6 +47,8 @@ public class JpaApplication {
 //                    .where(AuthorSpecification.hasAge(43))
 //                    .or(AuthorSpecification.firstNameLike("a"));
 //            authorRepository.findAll(spec).forEach(System.out::println);
+//            authorService.create("John", "Doe", "terst@test.com,", "admin", 30);
+
         };
     }
 }

@@ -1,9 +1,12 @@
 package com.application.jpa;
 
 import com.application.jpa.entities.Author;
+import com.application.jpa.exceptions.AuthorException;
+import com.application.jpa.exceptions.BaseException;
 import com.application.jpa.repositories.AuthorRepository;
 import com.application.jpa.services.AuthorService;
 import com.github.javafaker.Faker;
+import org.hibernate.service.spi.ServiceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +33,7 @@ public class AuthorServiceTest {
 
     @Test
     @Transactional
-    public void testCreateAuthor() {
+    public void testCreateAuthor() throws BaseException {
         // When
         authorService.create(
                 AuthorData.FIRST_NAME,
@@ -46,6 +49,24 @@ public class AuthorServiceTest {
         assertNotNull(authorCheck);
         assertEquals(AuthorData.EMAIL, authorCheck.getEmail());
     }
+    @Test
+    @Transactional
+    public void testCreateAuthorWithNullEmail() {
+        // Expect AuthorException to be thrown
+        assertThrows(
+                AuthorException.class,
+                () -> authorService.create(
+                        AuthorData.FIRST_NAME,
+                        AuthorData.LAST_NAME,
+                        null, // This should cause the AuthorException
+                        AuthorData.CREATE_BY,
+                        AuthorData.AGE
+                ),
+                AuthorException.createEmailNull().getMessage()
+        );
+    }
+
+
 
     interface AuthorData {
         Faker faker = new Faker();
