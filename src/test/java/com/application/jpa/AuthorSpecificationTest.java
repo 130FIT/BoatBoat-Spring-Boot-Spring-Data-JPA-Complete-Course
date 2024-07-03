@@ -49,6 +49,39 @@ public class AuthorSpecificationTest {
         assertEquals(1, authors.size());
     }
 
+    @Test
+    @Transactional
+    public void testQuerySpecificationHasAgeNotFound(){
+        Specification<Author> spec = Specification.where(
+                AuthorSpecification.hasAge(AuthorData.AGE+2)
+        );
+        List<Author> authors = authorRepository.findAll(spec);
+
+        assertEquals(0, authors.size());
+    }
+
+    @Test
+    @Transactional
+    public  void testQuerySpecificationFirstNameLike(){
+        Specification<Author> spec = Specification.where(
+                AuthorSpecification.firstNameLike(AuthorData.FIRST_NAME)
+        );
+        List<Author> authors = authorRepository.findAll(spec);
+
+        assertEquals(1, authors.size());
+    }
+
+    @Test
+    @Transactional
+    public void testQuerySpecificationFirstNameLikeNotFound(){
+        Specification<Author> spec = Specification.where(
+                AuthorSpecification.firstNameLike(AuthorData.FIRST_NAME+"a")
+        );
+        List<Author> authors = authorRepository.findAll(spec);
+
+        assertEquals(0, authors.size());
+    }
+
     interface AuthorData {
         Faker faker = new Faker();
         String FIRST_NAME = faker.name().firstName();
