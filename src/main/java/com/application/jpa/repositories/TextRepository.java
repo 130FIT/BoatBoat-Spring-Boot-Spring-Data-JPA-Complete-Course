@@ -1,4 +1,7 @@
 package com.application.jpa.repositories;
 
-public interface TextRepository extends ResourceRepository{
+import com.application.jpa.entities.Text;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TextRepository extends JpaRepository<Text, Integer> {
 }
