@@ -52,4 +52,20 @@ public class FileTest {
         fileRepository.deleteById(file.getId());
         assertEquals(0, fileRepository.count());
     }
+
+    @Test
+    @Transactional
+    public void testUpdateFile() {
+        File file = File.builder()
+            .name("file1")
+            .type("pdf")
+            .size(100)
+            .url("http://localhost:8080/files/file1")
+            .build();
+        fileRepository.save(file);
+        file.setName("file2");
+        fileRepository.save(file);
+        File fileInDb = fileRepository.findById(file.getId()).get();
+        assertEquals("file2", fileInDb.getName());
+    }
 }
