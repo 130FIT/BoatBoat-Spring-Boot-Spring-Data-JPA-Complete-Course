@@ -1,5 +1,6 @@
 package com.application.jpa;
 
+import com.application.jpa.entities.Lecture;
 import com.application.jpa.entities.Video;
 import com.application.jpa.repositories.LectureRepository;
 import com.application.jpa.repositories.VideoRepository;
@@ -36,6 +37,31 @@ public class VideoTest {
                 .length(60)
                 .build();
         videoRepository.save(video);
-        assertEquals(1, videoRepository.count());
+        assertEquals(video, videoRepository.findAll().get(0));
     }
+
+    @Test
+    @Transactional
+    public void testCreateVideoWithLecture() {
+        Video video = Video.builder()
+                .name("Video Title")
+                .url("https://www.youtube.com/watch?v=12345")
+                .size(1000)
+                .length(60)
+                .build();
+        Lecture lecture = Lecture.builder()
+                .name("Lecture Title")
+                .resource(video)
+                .build();
+        video.setLecture(lecture);
+        lectureRepository.save(lecture);
+        videoRepository.save(video);
+        Video videoFromDb = videoRepository.findAll().get(0);
+        Lecture lectureFromDb = lectureRepository.findAll().get(0);
+        assertEquals(video, videoFromDb);
+        assertEquals(lecture, videoFromDb.getLecture());
+        assertEquals(video, lectureFromDb.getResource());
+
+    }
+
 }
