@@ -1,6 +1,7 @@
 package com.application.jpa;
 
 import com.application.jpa.entities.Lecture;
+import com.application.jpa.entities.Section;
 import com.application.jpa.repositories.LectureRepository;
 import com.application.jpa.repositories.ResourceRepository;
 import com.application.jpa.repositories.SectionRepository;
@@ -40,5 +41,22 @@ public class LectureTest {
                 .build();
         lectureRepository.save(lecture);
         assertEquals(1, lectureRepository.count());
+    }
+
+    @Test
+    @Transactional
+    public void testCreateLectureWithSection() {
+        Section section = Section.builder()
+                .name("Section Title")
+                .sectionOrder("1")
+                .build();
+        sectionRepository.save(section);
+        Lecture lecture = Lecture.builder()
+                .name("Lecture Title")
+                .section(section)
+                .build();
+        lectureRepository.save(lecture);
+        assertEquals(1, lectureRepository.count());
+        assertEquals(section, lectureRepository.findById(lecture.getId()).get().getSection());
     }
 }
