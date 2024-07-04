@@ -39,4 +39,17 @@ public class FileTest {
         File fileInDb = fileRepository.findById(file.getId()).get();
         assertEquals(file, fileInDb);
     }
+    @Test
+    @Transactional
+    public void testDeleteFile() {
+        File file = File.builder()
+            .name("file1")
+            .type("pdf")
+            .size(100)
+            .url("http://localhost:8080/files/file1")
+            .build();
+        fileRepository.save(file);
+        fileRepository.deleteById(file.getId());
+        assertEquals(0, fileRepository.count());
+    }
 }
