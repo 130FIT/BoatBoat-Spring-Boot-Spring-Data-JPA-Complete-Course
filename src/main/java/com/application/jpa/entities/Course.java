@@ -25,4 +25,5 @@ public class Course extends BaseEntity{
 
     @OneToMany
     private List<Section> sections;
+
 }

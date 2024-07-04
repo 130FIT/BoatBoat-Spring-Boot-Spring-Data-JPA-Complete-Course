@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @Accessors(chain = true)
-public class Lecturn extends BaseEntity {
+public class Lecture extends BaseEntity {
     private String name;
     @ManyToOne
     @JoinColumn(

@@ -2,10 +2,8 @@ package com.application.jpa.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
 @Entity
@@ -27,5 +25,5 @@ public class Resource {
     @JoinColumn(
             name = "lecturn_id"
     )
-    private Lecturn lecturn;
+    private Lecture lecture;
 }

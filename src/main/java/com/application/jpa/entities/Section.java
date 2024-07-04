@@ -30,5 +30,5 @@ public class Section extends BaseEntity {
     @OneToMany(
             mappedBy = "section"
     )
-    private List<Lecturn> lecturns;
+    private List<Lecture> lectures;
 }
